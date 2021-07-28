@@ -34,15 +34,16 @@ public class PostagensController {
 	public ResponseEntity<List<Postagem>> GetAll(){
 		return ResponseEntity.ok(postagemRepository.findAll());
 		
-		@GetMapping("idifelse/{id}")
-		public ResponseEntity<Postagem> getByIdIfElse(@PathVariable long id) {
+		
+		//@GetMapping("idifelse/{id}")
+		//public ResponseEntity<Postagem> getByIdIfElse(@PathVariable long id) {
 
 	
-			Optional<Postagem> postagem = postagemRepository.findById(id);
-			if (postagem.isPresent()) {
-				return ResponseEntity.ok(postagem.get());
-			}
-			return ResponseEntity.notFound().build();
+			//Optional<Postagem> postagem = postagemRepository.findById(id);
+			//if (postagem.isPresent()) {
+				//return ResponseEntity.ok(postagem.get());
+			//}
+			//return ResponseEntity.notFound().build();
 		}
 		
 		/**
@@ -81,17 +82,17 @@ public class PostagensController {
 		 *
 		 */
 
-		@GetMapping("/idtrycatch/{id}")
-		public ResponseEntity<Postagem> getByIdTryCatch(@PathVariable long id) {
+		//@GetMapping("/idtrycatch/{id}")
+		//public ResponseEntity<Postagem> getByIdTryCatch(@PathVariable long id) {
 
-			Optional<Postagem> postagem = postagemRepository.findById(id);
-			try {
-				return ResponseEntity.ok(postagem.get());
-			} catch (Exception e) {
-				return ResponseEntity.notFound().build();
-			}
+			//Optional<Postagem> postagem = postagemRepository.findById(id);
+			//try {
+				//return ResponseEntity.ok(postagem.get());
+			//} catch (Exception e) {
+				//return ResponseEntity.notFound().build();
+			//}
 
-		}
+		//}
 
 		/*
 		 * Listar postagem por id - Forma 03: usando Lambda
