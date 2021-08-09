@@ -28,18 +28,10 @@ public class UsuarioService {
 		 * Lanço uma Exception do tipo Response Status Bad Request
 		 */
 		if(usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent())
-			throw new ResponseStatusException(
-				HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
-		
-		/**
-		 * Calcular a idade (em anos) através do método between, da Classe Period
-		 */
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
 		
 		 int idade = Period.between(usuario.getDataNascimento(), LocalDate.now()).getYears();
-		/**
-		 * Verifico se a iade é menor de 18. Caso positivo,
-		 * Lanço uma Exception do tipo Response Status Bad Request 
-		 */
+		
 		
 		 if(idade < 18)
 			throw new ResponseStatusException(
@@ -58,10 +50,17 @@ public class UsuarioService {
 	public Optional<Usuario> atualizarUsuario(Usuario usuario){
 		
 		if(usuarioRepository.findById(usuario.getId()).isPresent()) {
+			
+			Optional<Usuario> buscaUsuario = usuarioRepository.findByUsuario(usuario.getUsuario());
+			
+			if( buscaUsuario.isPresent() ){
 
-			/**
-			 * Mesma verificação do método cadastrarUsuario
-			 */
+				if(buscaUsuario.get().getId() != usuario.getId())
+					throw new ResponseStatusException(
+						HttpStatus.BAD_REQUEST, "Usuário já existe!", null);
+			}
+
+
 
 			 int idade = Period.between(usuario.getDataNascimento(), LocalDate.now()).getYears();
 			
@@ -78,10 +77,6 @@ public class UsuarioService {
 		
 		}else {
 			
-			/**
-			 * Lanço uma Exception do tipo Response Status Not Found
-			 */
-
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, "Usuário não encontrado!", null);
 			
@@ -100,6 +95,7 @@ public class UsuarioService {
 				String auth = usuarioLogin.get().getUsuario() + ":" + usuarioLogin.get().getSenha();
 				byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
 				String authHeader = "Basic " + new String(encodedAuth);
+			
 
 				usuarioLogin.get().setToken(authHeader);				
 				usuarioLogin.get().setNome(usuario.get().getNome());
