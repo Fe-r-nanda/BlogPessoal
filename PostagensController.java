@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.generation.blogPessoal.model.Postagem;
 import org.generation.blogPessoal.repository.PostagemRepository;
+import org.generation.blogPessoal.service.PostagemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,10 @@ public class PostagensController {
 
 	@Autowired
 	private PostagemRepository postagemRepository;
+	
+
+	@Autowired
+	private PostagemService postagemService;
 
 	@GetMapping
 	public ResponseEntity<List<Postagem>> GetAll() {
@@ -58,5 +63,19 @@ public class PostagensController {
 		postagemRepository.deleteById(id);
 
 	}	
+	
+	@PutMapping("/curtir/{id}")
+	public ResponseEntity<Postagem> putCurtirPostagemId (@PathVariable Long id){
+		
+		return ResponseEntity.status(HttpStatus.OK).body(postagemService.curtir(id));
+	
+	}
+
+	@PutMapping("/descurtir/{id}")
+	public ResponseEntity<Postagem> putDescurtirPostagemId (@PathVariable Long id){
+		
+		return ResponseEntity.status(HttpStatus.OK).body(postagemService.descurtir(id));
+	
+	}
 	
 }
